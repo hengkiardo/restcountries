@@ -20,7 +20,10 @@ var hour = 3600000;
 var day = hour * 24;
 var week = day * 7;
 
-var countries = require('./resources/countriesV1');
+/**
+ * Load controllers.
+ */
+var API = require('./controllers/api');
 
 /**
  * Express configuration.
@@ -44,15 +47,11 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: week }));
  * Application routes.
  */
 
-app.get('/',function(req, res) {
-  res.render('home', {
-    title: 'Home'
-  });
-});
+app.get('/', API.index);
 
-app.get('/api/v1', function (req, res, next) {
-  res.json(countries);
-})
+app.get('/api/', API.index);
+
+app.get('/api/v1', API.getAll);
 
 /**
  * 500 Error Handler.
