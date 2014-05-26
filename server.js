@@ -53,6 +53,10 @@ app.get('/api/', API.index);
 
 app.get('/api/v1', API.getAll);
 
+app.get('/api/v1/callingcode/:callingCode', API.callingCode)
+
+app.get('/api/v1/region/:regionName', API.region)
+
 /**
  * 500 Error Handler.
  * As of Express 4.0 it must be placed at the end, after all routes.
