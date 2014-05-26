@@ -6,7 +6,6 @@ var bodyParser = require('body-parser');
 var logger = require('morgan');
 var errorHandler = require('errorhandler');
 var methodOverride = require('method-override');
-
 var path = require('path');
 var expressValidator = require('express-validator');
 
@@ -20,6 +19,8 @@ var app = express();
 var hour = 3600000;
 var day = hour * 24;
 var week = day * 7;
+
+var countries = require('./resources/countriesV1');
 
 /**
  * Express configuration.
@@ -48,6 +49,10 @@ app.get('/',function(req, res) {
     title: 'Home'
   });
 });
+
+app.get('/api/v1', function (req, res, next) {
+  res.json(countries);
+})
 
 /**
  * 500 Error Handler.
