@@ -30,6 +30,21 @@ exports.callingCode = function(req, res) {
   res.json(200, country)
 }
 
+exports.currency = function(req, res) {
+
+  var currency_code = req.params.currency_code;
+
+  var country = _.find(countries, function(co) {
+    return validator.isIn(currency_code.toUpperCase(), co.currency)
+  });
+
+  if(!country) {
+    notFound(res);
+  }
+
+  res.json(200, country)
+}
+
 exports.region = function (req, res, next) {
 
   var result = [];
