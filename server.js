@@ -57,6 +57,8 @@ app.get('/api/v1/callingcode/:callingCode', API.callingCode)
 
 app.get('/api/v1/region/:regionName', API.region)
 
+app.get('/api/v1/subregion/:subregionName', API.subregion)
+
 app.get('/api/v1/currency/:currency_code', API.currency)
 
 /**

@@ -64,3 +64,23 @@ exports.region = function (req, res, next) {
 
   res.json(200, country_region);
 }
+
+exports.subregion = function (req, res, next) {
+
+  var result = [];
+  var subregion_name = req.params.subregionName;
+
+  var country = _.reduce(countries, function(result, country, key) {
+
+    if(country.subregion.toLowerCase() == subregion_name.toLowerCase()) {
+      result.push(country);
+    }
+    return result;
+  }, []);
+
+  if(country.length < 1) {
+    notFound(res);
+  }
+
+  res.json(200, country);
+}
