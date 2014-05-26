@@ -3,6 +3,10 @@ var validator = require('validator');
 
 var countries = require('../resources/countriesV1');
 
+var notFound = function(res) {
+  res.json(404, { "status": 404, "message": "Not Found" })
+}
+
 exports.index = function(req, res) {
   res.send({message : 'Welcome buddy!'});
 };
@@ -18,6 +22,10 @@ exports.callingCode = function(req, res) {
   var country = _.find(countries, function(co) {
     return validator.isIn(calling_code, co.callingCode)
   });
+
+  if(!country) {
+    notFound(res);
+  }
 
   res.json(200, country)
 }
@@ -35,9 +43,9 @@ exports.region = function (req, res, next) {
     return result;
   }, []);
 
-  if(country_region == undefined) {
-    res.json(204, { 'msg' : 'No country found'});
-  } else {
-    res.json(200, country_region);
+  if(country_region.length < 1) {
+    notFound(res);
   }
+
+  res.json(200, country_region);
 }
