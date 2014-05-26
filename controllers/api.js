@@ -1,4 +1,6 @@
 var _ = require('lodash');
+var validator = require('validator');
+
 var countries = require('../resources/countriesV1');
 
 exports.index = function(req, res) {
@@ -7,6 +9,17 @@ exports.index = function(req, res) {
 
 exports.getAll = function(req, res) {
   res.json(200, countries)
+}
+
+exports.callingCode = function(req, res) {
+
+  var calling_code = req.params.callingCode;
+
+  var country = _.find(countries, function(co) {
+    return validator.isIn(calling_code, co.callingCode)
+  });
+
+  res.json(200, country)
 }
 
 exports.region = function (req, res, next) {
