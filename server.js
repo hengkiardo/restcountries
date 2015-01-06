@@ -34,8 +34,8 @@ app.set('view engine', 'jade');
 
 app.use(compress());
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 app.use(expressValidator());
 app.use(methodOverride());
 app.use(cookieParser());
@@ -66,7 +66,35 @@ app.get('/api/v1/currency/:currency_code', API.currency)
  * As of Express 4.0 it must be placed at the end, after all routes.
  */
 
-app.use(errorHandler());
+app.use(function(err, req, res, next){
+  // treat as 404
+  if (err.message
+    && (~err.message.indexOf('not found')
+    || (~err.message.indexOf('Cast to ObjectId failed')))) {
+    return next()
+  }
+  // log it
+  // send emails if you want
+  // error page
+  res.status(500).json({
+    error: err,
+    pkg: pkg,
+    CONFIG: CONFIG
+  })
+})
+
+// assume 404 since no middleware responded
+app.use(function(req, res, next){
+  res.status(404).json({
+    url: req.originalUrl,
+    message: "Sorry, that page does not exist",
+    code: 34
+  })
+})
+
+if (app.get('env') === 'development') {
+  app.use(errorHandler())
+}
 
 /**
  * Start Express server.

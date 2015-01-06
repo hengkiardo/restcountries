@@ -4,7 +4,10 @@ var validator = require('validator');
 var countries = require('../resources/countriesV1');
 
 var notFound = function(res) {
-  res.json(404, { "status": 404, "message": "Not Found" })
+  res.json(404, {
+    message: "Sorry, that page does not exist",
+    code: 34
+  })
 }
 
 exports.index = function(req, res) {
@@ -12,7 +15,7 @@ exports.index = function(req, res) {
 };
 
 exports.getAll = function(req, res) {
-  res.json(200, countries)
+  res.status(200).json(countries)
 }
 
 exports.callingCode = function(req, res) {
@@ -27,7 +30,7 @@ exports.callingCode = function(req, res) {
     notFound(res);
   }
 
-  res.json(200, country)
+  res.status(200).json(country)
 }
 
 exports.currency = function(req, res) {
@@ -42,7 +45,7 @@ exports.currency = function(req, res) {
     notFound(res);
   }
 
-  res.json(200, country)
+  res.status(200).json(country)
 }
 
 exports.region = function (req, res, next) {
@@ -62,7 +65,7 @@ exports.region = function (req, res, next) {
     notFound(res);
   }
 
-  res.json(200, country_region);
+  res.status(200).json(country_region);
 }
 
 exports.subregion = function (req, res, next) {
@@ -82,5 +85,5 @@ exports.subregion = function (req, res, next) {
     notFound(res);
   }
 
-  res.json(200, country);
+  res.status(200).json(country);
 }
